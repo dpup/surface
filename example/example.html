@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS Surfaces Example</title>
+  <style>
+    body {
+      font-family: sans-serif;
+    }
+  
+    .box {
+      background-color: #eee;
+      border: 1px solid #666;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px;      
+    }
+  
+    #header {
+    }
+    
+    #main {
+      min-height: 200px;
+      margin-right: 250px;
+    }
+    
+    #sidebar {
+      float: right;
+      width: 200px;
+      min-height: 200px;
+      margin: 0;
+      margin-right: 10px;
+    }
+    
+        
+    a {
+      color: blue;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    a:hover {
+      color: red;
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+  
+  <!-- header, sidebar, main and footer correspond with surfaces defined in example.js -->
+  <div id="header" class="box">
+    <!-- The default content for the header is embedded in the HTML.  This content will be used
+      -- unless a screen explicitly overrides the header surface (e.g. Test). -->
+    <div id="header-default">
+      <!-- In a real app you'd hook up these paths to render server side as well as triggering a
+        -- client side navigation. -->
+      <a href="example.html">Home</a> |
+      <a href="test.html">Test</a> |
+      <a href="delay-1.html">Delay 1</a> |
+      <a href="delay-2.html">Delay 2</a> |
+      <a href="delay-4.html">Delay 4</a> |
+      <a href="delay-8.html">Delay 8</a>
+    </div>
+  </div>
+  <div id="sidebar" class="box"></div>
+  <div id="main" class="box">
+      <div id="main-default">This is the default main content.</div>
+  </div>
+  <div id="footer" class="box">
+  </div>
+  
+  <!-- Run serve-example.sh to get Plovr to serve the JS. -->
+  <script src="http://0.0.0.0:9810/compile?id=example"></script>
+</body>
+</html>
