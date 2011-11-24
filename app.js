@@ -8,6 +8,7 @@ goog.provide('surf.App');
 goog.require('surf');
 goog.require('surf.Surface');
 goog.require('goog.pubsub.PubSub');
+goog.require('goog.string');
 
 
 
@@ -21,7 +22,7 @@ goog.require('goog.pubsub.PubSub');
  * the href on the configured base path.  If no matching screen is found the browser is allowed to
  * handle the click.
  *
- * @param {string} basePath The base path used to prefix history tokens.  Relative to hostname.
+ * @param {string} basePath The base path used to prefix history tokens.  Relative to host.
  * @param {string=} opt_defaultTitle Optional title to use if a screen doesn't have one of its own.
  * @extends {goog.pubsub.PubSub}
  * @constructor
@@ -30,7 +31,7 @@ surf.App = function(basePath, opt_defaultTitle) {
   goog.base(this);
   
   /** @type {string} */
-  this.basePath_ = document.location.href.split(document.location.pathname)[0] + basePath;
+  this.basePath_ = basePath;
   
   /** @type {string} */
   this.defaultTitle_ = opt_defaultTitle || document.title;
@@ -281,7 +282,7 @@ surf.App.prototype.finalizeNavigate_ = function(path, nextScreen, replaceHistory
   // Update the history token.
   var title = nextScreen.getTitle() || this.defaultTitle_;
   var historyParams = {'path': path, 'isNavigate': true};
-  var historyPath = this.basePath_ + path;
+  var historyPath = (this.basePath_ + path).replace('//', '/');
   try {
     if (replaceHistory) {
       window.history.replaceState(historyParams, title, historyPath);      
@@ -363,16 +364,15 @@ surf.App.prototype.handlePopState_ = function(e) {
  * @private
  */
 surf.App.prototype.handleDocClick_ = function(e) {
-  
-  
   var el = e.target;
   while (el && el.tagName != 'A') {
     el = el.parentNode;
   }
   
   if (el) {
-    var path = el.href.split(this.basePath_)[1];
-    if (path) { 
+    var path = el.pathname + el.search;
+    if (goog.string.startsWith(path, this.basePath_)) {
+      path = path.substr(this.basePath_.length);
       var navigateFailed = false;
       this.navigate(path).addErrback(function(err) { navigateFailed = true; });
       // If the navigation failed synchronously then we don't prevent default and let the browser
