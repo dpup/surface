@@ -103,6 +103,7 @@ surf.App.prototype.registerScreenFactory = function(factory) {
 
 /**
  * @param {string=} opt_path Optional path to navigate to first.
+ * @return {!goog.async.Deferred} A deferred corresponding to the initial navigation.
  */
 surf.App.prototype.init = function(opt_path) {
   document.body.addEventListener('click', goog.bind(this.handleDocClick_, this), false);
@@ -110,9 +111,10 @@ surf.App.prototype.init = function(opt_path) {
     
   if (opt_path) {
     var d = this.navigate(opt_path, true);
-    // If we can't navigate to the initial view, redirect to home page.
+    // If we can't navigate to the initial view, redirect to the base path.
     // TODO : Raise a warning event or some such.
-    d.addErrback(goog.bind(this.navigate, this, ''));
+    //d.addErrback(goog.bind(this.navigate, this, ''));
+    return d;
   } else {
     
     // Replace the history state so we can always navigate back to the start screen.
@@ -129,6 +131,8 @@ surf.App.prototype.init = function(opt_path) {
     for (var surface in this.surfaces_) {
       this.surfaces_[surface].show(surf.Surface.DEFAULT);
     }
+    
+    return goog.async.Deferred.succeed(null);
   }
 };
 
@@ -137,7 +141,7 @@ surf.App.prototype.init = function(opt_path) {
  * @param {string} path The path to navigate to.
  * @param {boolean=} opt_replaceHistory Whether to replace the history entry, instead of adding
  *     to the stack.  (Internal, used for history triggered navigations and initial screen.)
- * @return {goog.async.Deferred} Deferred that returns when the navigation is finished.  The
+ * @return {!goog.async.Deferred} Deferred that returns when the navigation is finished.  The
  *     errback will be called if an error occurred or the navigation was cancelled.
  */
 surf.App.prototype.navigate = function(path, opt_replaceHistory) {  
@@ -219,6 +223,15 @@ surf.App.prototype.navigate = function(path, opt_replaceHistory) {
   d.addErrback(goog.bind(this.publishForDeferred_, this, surf.App.Topics.END, path, false));
   
   return d;
+};
+
+
+/**
+ * @return {surf.Screen} Returns the active screen. If a navigation is in progress this will be
+ *     the screen that is being navigated FROM.
+ */
+surf.App.prototype.getActiveScreen = function() {
+  return this.activeScreen_;
 };
 
 
