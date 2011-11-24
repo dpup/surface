@@ -87,6 +87,12 @@ SlideScreen.prototype.isCacheable = function() {
 
 
 /** @inheritDoc */
+SlideScreen.prototype.getTitle = function() {
+  return 'Surface :: Slideshow :: #' + (this.photoId_ + 1);
+};
+
+
+/** @inheritDoc */
 SlideScreen.prototype.getSurfaceContent = function(surface) {
   // Take a shortcut and ignore the surface id, since we know there's only one surface in
   // this app.  This could come back to bite you in a larger app though...
