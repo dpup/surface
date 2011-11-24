@@ -1,13 +1,16 @@
+/**
+ * @fileoverview This example shows an app like page with multiple surfaces.  There are two
+ * screen classes that demonstrate some of the different features.  Read the code and comments
+ * to get a better idea of what's going on.
+ */
+
 
 goog.require('surf.App');
 goog.require('surf.NullScreen');
 goog.require('surf.RegExpScreenFactory');
 goog.require('goog.async.Deferred');
 
-// NOTE: History integration doesn't work on the local file system, so the example.html file
-// has fake links that we match to the screens.  We use 'file.html' instead of paths so that
-// the example is more likely to run when hosted on any server.  In practice you need more
-// knowledge about what the base URL is.
+// NOTE: History integration doesn't work on the local file system.
 
 // Work out the basepath where example.html lives, in a real app try to come up with a more
 // robust solution, such as having it written by a template param.
@@ -46,6 +49,8 @@ goog.inherits(TestScreen, surf.NullScreen);
 
 /** @inheritDoc */
 TestScreen.prototype.isCacheable = function() {
+  // This screen will be constructed when it is first navigated to, but then its DOM will just
+  // be hidden, rather than being removed.
   return true;
 };
 
@@ -53,12 +58,18 @@ TestScreen.prototype.isCacheable = function() {
 /** @inheritDoc */
 TestScreen.prototype.getSurfaceContent = function(surface) {
   switch (surface) {
+    // Set the text for the main area.
     case 'main': return 'This is a test screen that simply returns some plain text as the main ' +
         'surface\'s content.  Pretty simple; pretty boring.';
-        
+    
+    // Update the sidebar's content with some text.
     case 'sidebar': return 'TestScreen';
     
+    // Replace the header link with a 'back' link that uses JS history.  This won't work from the
+    // local file system, so make sure to run the example from a server.
     case 'header': return surf.dom('a', {'href': 'javascript:history.back();'}, '<< Back');
+   
+     // Note, no content is returned for 'footer', the app will show the 'default content' instead.
    
     default: return null;
   }
@@ -81,12 +92,15 @@ goog.inherits(DelayedScreen, surf.NullScreen);
 
 /** @inheritDoc */
 DelayedScreen.prototype.isCacheable = function() {
+  // After navigating away from this view, remove its element from the DOM and dispose its
+  // screen object.
   return false;
 };
 
 
 /** @inheritDoc */
 DelayedScreen.prototype.getTitle = function() {
+  // The title will show in the title bar and in the browser's history drop down.
   return 'I was ' + this.num + ' seconds delayed.';
 };
 
@@ -94,8 +108,10 @@ DelayedScreen.prototype.getTitle = function() {
 /** @inheritDoc */
 DelayedScreen.prototype.getSurfaceContent = function(surface) {
   if (surface == 'main') {
+    // Show a number in the main area.  This returns an element, as opposed to TestScreen above.
     return surf.dom('h1', null, this.num);
   } else if (surface == 'sidebar') {
+    // Show the screen's name in the side bar.
     return 'DelayedScreen';
   } else {
     return null;
@@ -105,7 +121,7 @@ DelayedScreen.prototype.getSurfaceContent = function(surface) {
 
 /** @inheritDoc */
 DelayedScreen.prototype.beforeFlip = function() {
-  // Before flip can return a deferred.  The navigation won't be completed until the deferred
+  // beforeFlip can return a deferred.  The navigation won't be completed until the deferred
   // returns.  But be careful to handle goog.async.Deferred.CancelledError errors which may
   // occur if the navigation is interrupted.
   var d = new goog.async.Deferred();
