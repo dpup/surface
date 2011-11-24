@@ -140,7 +140,7 @@ var surf = {
    * @return {goog.async.Deferred}
    */
   postJson: function(url, data) {
-	  var deferred = new goog.async.Deferred();
+    var deferred = new goog.async.Deferred();
     deferred.addCallback(surf.parseXhrAsJson);
     var xhr = surf.newXhr(deferred);
     xhr.open('POST', url);
@@ -154,9 +154,9 @@ var surf = {
    * @return {goog.async.Deferred}
    */
   getJson: function(url) {
-	  var deferred = new goog.async.Deferred();
+    var deferred = new goog.async.Deferred();
     deferred.addCallback(surf.parseXhrAsJson);
-		var xhr = surf.newXhr(deferred);
+    var xhr = surf.newXhr(deferred);
     xhr.open('GET', url);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(null);
@@ -168,7 +168,7 @@ var surf = {
    * @return {goog.async.Deferred}
    */
   getRaw: function(url) {
-	  var deferred = new goog.async.Deferred();
+    var deferred = new goog.async.Deferred();
     var xhr = surf.newXhr(deferred);
     xhr.open('GET', url);
     xhr.send(null);
@@ -183,7 +183,7 @@ var surf = {
     var xhr = new XMLHttpRequest();
     xhr.onload = function() {
       if (xhr.status == 200) {
-	      deferred.callback(xhr);
+        deferred.callback(xhr);
       } else {
         // Create error objects for known error types.
         var error = Error('Request error, status: ' + xhr.status);
@@ -207,14 +207,14 @@ var surf = {
    * @return {*}
    */
   parseXhrAsJson: function(xhr) {
-		try {
-		  return window.JSON.parse(xhr.responseText);
-	  } catch (e) {
-	    surf.log('Bad response', xhr.responseText);
-		  e.status = 200;
-		  e.xhr = xhr;
-			throw e;
-	  }
+    try {
+      return window.JSON.parse(xhr.responseText);
+    } catch (e) {
+      surf.log('Bad response', xhr.responseText);
+      e.status = 200;
+      e.xhr = xhr;
+      throw e;
+    }
   }
 
 };
