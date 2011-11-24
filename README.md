@@ -29,7 +29,7 @@ Examples
 API Reference
 -------------
 
-### `surf.App` #
+### surf.App #
 
 The main class that is responsible for managing navigations and history.
 
@@ -51,7 +51,7 @@ Starts a navigation to the given path.  If a matching, cached screen is found it
 `#getActiveScreen()`  
 Returns a reference to the currently active screen.  If called during a navigation it refers to the screen being navigated _from_. 
 
-### `surf.ScreenFactory` #
+### surf.ScreenFactory #
 
 Interface used by the app to construct screens.  Multiple screen factories can be registered with an app.  When navigating the app looks for the first factory that matches the requested path, and asks the factory to construct a `surf.Screen`. 
 
@@ -64,7 +64,7 @@ Whether to construct a screen for the path.
 Create a new screen for the given path.
 
 
-### `surf.Screen` #
+### surf.Screen #
 
 Interface for individual screens.  A screen class is responsible for controlling the visible surfaces in the app and managing the lifecycle. The lifecycle of the screen is as follows:
 
