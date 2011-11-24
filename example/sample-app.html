@@ -54,12 +54,12 @@
     <div id="header-default">
       <!-- In a real app you'd hook up these paths to render server side as well as triggering a
         -- client side navigation. -->
-      <a href="example.html">Home</a> |
-      <a href="test.html">Test</a> |
-      <a href="delay-1.html">Delay 1</a> |
-      <a href="delay-2.html">Delay 2</a> |
-      <a href="delay-4.html">Delay 4</a> |
-      <a href="delay-8.html">Delay 8</a>
+      <a href="sample-app.html">Home</a> |
+      <a href="sample-app.html?screen=test">Test</a> |
+      <a href="sample-app.html?screen=delay&n=1">Delay 1</a> |
+      <a href="sample-app.html?screen=delay&n=2">Delay 2</a> |
+      <a href="sample-app.html?screen=delay&n=4">Delay 4</a> |
+      <a href="sample-app.html?screen=delay&n=8">Delay 8</a>
     </div>
   </div>
   <div id="sidebar" class="box"></div>
@@ -70,6 +70,6 @@
   </div>
   
   <!-- Run bin/serve-js.sh to get Plovr to serve the JS. -->
-  <script src="http://localhost:9810/compile?id=example"></script>
+  <script src="http://localhost:9810/compile?id=sample-app"></script>
 </body>
 </html>

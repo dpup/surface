@@ -4,4 +4,4 @@
 
 DIR="$( cd -P "$( dirname "$0" )" && pwd )"
 cd $DIR
-java -jar ./plovr.jar serve ../plovr-example-config.js
+java -jar ./plovr.jar serve ./plovr-config-sample-app.js

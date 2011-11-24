@@ -120,7 +120,7 @@ surf.App.prototype.init = function(opt_path) {
       window.history.replaceState({'path': this.basePath_, 'isNavigate': true},
           this.defaultTitle_, this.basePath_);
     } catch (e) {
-      surf.log('Unable to set initial history token.', e);
+      surf.log('Unable to set initial history token.', this.basePath_, e);
     }
 
     // Set title after updating history.
@@ -277,7 +277,7 @@ surf.App.prototype.finalizeNavigate_ = function(path, nextScreen, replaceHistory
     }
   } catch (e) {
     // Don't fail out entirely if history.pushState fails.
-    surf.log('Unable to update history token.', e);
+    surf.log('Unable to update history token.', historyPath, e);
   }
 
   // Update the title after the history so that it is associated with the right entry.
@@ -350,6 +350,7 @@ surf.App.prototype.handlePopState_ = function(e) {
  * @private
  */
 surf.App.prototype.handleDocClick_ = function(e) {
+  
   
   var el = e.target;
   while (el && el.tagName != 'A') {

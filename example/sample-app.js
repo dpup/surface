@@ -10,31 +10,9 @@ goog.require('surf.NullScreen');
 goog.require('surf.RegExpScreenFactory');
 goog.require('goog.async.Deferred');
 
-// NOTE: History integration doesn't work on the local file system.
 
-// Work out the basepath where example.html lives, in a real app try to come up with a more
-// robust solution, such as having it written by a template param.
-var fullPath = window.location.pathname;
-var basePath = fullPath.substr(0, fullPath.lastIndexOf('/') + 1);
-
-var app = new surf.App(basePath);
-app.defineSurface('main');
-app.defineSurface('sidebar');
-app.defineSurface('header');
-app.defineSurface('footer', 'This is the default footer, set from code.');
-
-// Register a null screen on example.html so that clicking the link reverts the app to default.
-app.registerScreenFactory(new surf.RegExpScreenFactory(/^example\.html$/, surf.NullScreen));
-
-// Test screen is static and cacheable.
-app.registerScreenFactory(new surf.RegExpScreenFactory(/^test\.html$/, TestScreen));
-
-// Delayed screen accepts wildcards via the regexp.
-app.registerScreenFactory(new surf.RegExpScreenFactory(/^delay\-([0-9])\.html$/, DelayedScreen));
-
-// Initialize the app with the defaults.
-app.init('example.html');
-
+// Scroll down to the end of the file to see the initialization code for the sample app.  The first
+// two classes in this file and implementations for the screens in the sample app.
 
 
 /**
@@ -134,3 +112,38 @@ DelayedScreen.prototype.beforeFlip = function() {
   });
   return d;
 };
+
+
+
+
+// NOTE: History integration doesn't work on the local file system.
+
+// Work out the basepath where example.html lives, in a real app try to come up with a more
+// robust solution, such as having it written by a template param.
+//
+// The sample uses the query-string to differentiate screens.  In practice you'd probably use
+// paths and have the server be able to render on any supported path.
+//
+
+var fullPath = window.location.pathname + window.location.search;
+var lastSlash = fullPath.lastIndexOf('/');
+var basePath = fullPath.substr(0, lastSlash + 1);
+var currentPath = fullPath.substr(lastSlash + 1);
+
+var app = new surf.App(basePath);
+app.defineSurface('main');
+app.defineSurface('sidebar');
+app.defineSurface('header');
+app.defineSurface('footer', 'This is the default footer, set from code.');
+
+// Register a null screen on example.html so that clicking the link reverts the app to default.
+app.registerScreenFactory(new surf.RegExpScreenFactory(/^sample-app\.html$/, surf.NullScreen));
+
+// Test screen is static and cacheable.
+app.registerScreenFactory(new surf.RegExpScreenFactory(/^sample-app\.html\?screen=test$/, TestScreen));
+
+// Delayed screen accepts wildcards via the regexp.
+app.registerScreenFactory(new surf.RegExpScreenFactory(/^sample-app\.html\?screen=delay&n=([0-9])$/, DelayedScreen));
+
+// Initialize the app with the defaults.
+app.init(currentPath);
