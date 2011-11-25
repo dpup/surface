@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Surface Bundle</title>
+  <script src="http://localhost:9810/compile?id=bundle"></script>
+  <style>
+    #img>div, #text>div {
+      display: none;
+    }
+    
+    #img {
+      float: left;
+      margin-right: 20px;
+    }
+    
+    #links {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div id="links">
+    <a href="bundle.html?dracula">Dracula</a> |
+    <a href="bundle.html?frank">Frankenstein</a> |
+    <a href="bundle.html?warandpeace">War and peace</a>
+  </div>
+  <div id="img">
+    <div id="img-dracula"><img src="https://encrypted-tbn2.google.com/images?q=tbn:ANd9GcTEjYxSRkieGCI_yEk_ztjNjFIewiHEuFfiZkjvsJctmOS0LXav"></div>
+    <div id="img-warandpeace"><img src="https://encrypted-tbn0.google.com/images?q=tbn:ANd9GcRjhxZkaZ5Dr5xTm73rNo0VHPXHpIqBK9NgnclvcLfr3Vw8K-Xa"></div>
+    <div id="img-frank"><img src="https://encrypted-tbn2.google.com/images?q=tbn:ANd9GcTGeZiqnMTor7Sn0qtXA1MiwndWER-APHbwf2wdu5RzD_jF_Fg9"></div>
+  </div>
+  <div id="text">
+    <div id="text-dracula">
+      <p>The impression I had was that we were leaving the West and entering the East; the most western of splendid bridges over the Danube, which is here of noble width and depth, took us among the traditions of Turkish rule. We left in pretty good time, and came after nightfall to Klausenburgh. Here I stopped for the night at the Hotel Royale. I had for dinner, or rather supper, a chicken done up some way with red pepper, which was very good but thirsty. (Mem. get recipe for Mina.) I asked the waiter, and he said it was called "paprika hendl," and that, as it was a national dish, I should be able to get it anywhere along the Carpathians.</p>
+      <p>I found my smattering of German very useful here, indeed, I don't know how I should be able to get on without it. Having had some time at my disposal when in London, I had visited the British Museum, and made search among the books and maps in the library regarding Transylvania; it had struck me that some foreknowledge of the country could hardly fail to have some importance in dealing with a nobleman of that country. I find that the district he named is in the extreme east of the country, just on the borders of three states, Transylvania, Moldavia, and Bukovina, in the midst of the Carpathian mountains; one of the wildest and least known portions of Europe.</p>
+    </div>
+    <div id="text-warandpeace">
+      <p>The rustle of a woman's dress was heard in the next room. Prince Andrew shook himself as if waking up, and his face assumed the look it had had in Anna Pavlovna's drawing room. Pierre removed his feet from the sofa. The princess came in. She had changed her gown for a house dress as fresh and elegant as the other. Prince Andrew rose and politely placed a chair for her.</p>
+      <p>"How is it," she began, as usual in French, settling down briskly and fussily in the easy chair, "how is it Annette never got married? How stupid you men all are not to have married her! Excuse me for saying so, but you have no sense about women. What an argumentative fellow you are, Monsieur Pierre!" "And I am still arguing with your husband. I can't understand why he wants to go to the war," replied Pierre, addressing the princess with none of the embarrassment so commonly shown by young men in their intercourse with young women. The princess started. Evidently Pierre's words touched her to the quick.</p>
+    </div>
+    <div id="text-frank">
+      <p>But I was doomed to live and in two months found myself as awaking from a dream, in a prison, stretched on a wretched bed, surrounded by jailers, turnkeys, bolts, and all the miserable apparatus of a dungeon. It was morning, I remember, when I thus awoke to understanding; I had forgotten the particulars of what had happened and only felt as if some great misfortune had suddenly overwhelmed me; but when I looked around and saw the barred windows and the squalidness of the room in which I was, all flashed across my memory and I groaned bitterly.</p>
+      <p>This sound disturbed an old woman who was sleeping in a chair beside me. She was a hired nurse, the wife of one of the turnkeys, and her countenance expressed all those bad qualities which often characterize that class. The lines of her face were hard and rude, like that of persons accustomed to see without sympathizing in sights of misery. Her tone expressed her entire indifference; she addressed me in English, and the voice struck me as one that I had heard during my sufferings. "Are you better now, sir?" said she.</p>
+    </div>
+  </div>
+  
+  <script>
+    var app = new surf.App('/bundle.html?');
+    app.defineSurface('img');
+    app.defineSurface('text');
+    
+    app.registerScreenFactory({
+      matchesPath: function(path) {
+        return true;
+      },
+      create: function(path) {
+        var book = path || 'dracula';
+        return {
+          isCacheable: function() { return true; },
+          getTitle: function() { return 'Surface Bundle :: ' + path; },
+          getSurfaceContent: function(surface) {
+            return document.getElementById(surface + '-' + book);
+          },
+          // Just to satisfy the interface:
+          beforeFlip: function() {},
+          afterFlip: function() {},
+          beforeDeactivate: function() {},
+          deactivate: function() {},
+          dispose: function() {}
+        };
+      }
+    });
+    
+    app.init(location.search ? location.search.substr(1) : 'dracula');
+    
+  </script>
+</body>
+</html>

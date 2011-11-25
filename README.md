@@ -3,7 +3,7 @@ Surface JS Library
 
 Surface is a JS library intended to help manage single-page applications (or "Ajaxy" apps).  It promotes decoupling of components and provides tools for navigating between "screens" and integrating with the browser history.
 
-It is intended to be used in conjunction with the [Closure Tools](http://code.google.com/closure/) but can be used as a stand-alone bundle -- at some compromise to code size.
+It is intended to be used in conjunction with the [Closure Tools](http://code.google.com/closure/) but can be used as a stand-alone bundle -- at some compromise to code size (~13KB).
 
 Overview
 --------
