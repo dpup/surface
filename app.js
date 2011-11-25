@@ -371,6 +371,7 @@ surf.App.prototype.handleDocClick_ = function(e) {
   
   if (el) {
     var path = el.pathname + el.search;
+    surf.log('Link path:', path, '; Base path:', this.basePath_);
     if (goog.string.startsWith(path, this.basePath_)) {
       path = path.substr(this.basePath_.length);
       var navigateFailed = false;
