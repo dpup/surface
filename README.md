@@ -55,7 +55,7 @@ Returns a reference to the currently active screen.  If called during a navigati
 
 Interface used by the app to construct screens.  Multiple screen factories can be registered with an app.  When navigating the app looks for the first factory that matches the requested path, and asks the factory to construct a `surf.Screen`. 
 
-A concrete implementation is provided in `surf.RegExpScreenFactory` that matches the path with a regular expression, and returns an instance of a Screen whose constructor was provided at initialization.  Though an app may have a single screen factory that knows how to construct all possible screens.
+A concrete implementation is provided in `surf.RegExpScreenFactory` that matches the path with a regular expression, and returns an instance of a Screen whose constructor was provided at initialization.  An app may have a single screen factory that knows how to construct all possible screens, a screen factory for every screen type, or somewhere in between.
 
 `#matchesPath(path)`  
 Whether to construct a screen for the path.  
