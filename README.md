@@ -83,10 +83,27 @@ When another navigation occurs:
 A concrete implementation is provided in `surf.NullScreen` that can be inherited from (for convenience) and individual methods overridden.
 
 `#isCacheable()`  
-Whether the screen should be cached by the app.  If false the screen will be disposed once it is navigated away from.  If true, the screen and its DOM will be kept around and can be flipped to quickly if navigated to again.
+Whether the screen should be cached by the app.  If false the screen will be disposed once it is deactivated.  If true, the screen and its DOM will be kept around and can be flipped to quickly if navigated to again.
 
 `#getTitle()`  
 Gets the title which should be shown in the browser's title bar and in the history drop down.
 
 `#getSurfaceContent(surfaceId)`  
 Will be called for each surface in the app, the return value can be a string, an element, or null if the screen doesn't want to show anything for that surface.
+
+`#beforeFlip()`  
+Called before the screen is navigated to, whether it was just constructed or cached.  If beforeFlip() returns a Deferred, the application won't finalize the navigation until the Deferred is resolved.  This allows you to load data, for example, before the screen is made visible.
+
+`#afterFlip()`  
+Called immediately after the screen has been navigated to.  You know that the screen's elements are in the DOM and visible, should you need to do any initialization that requires measuring of elements.
+
+`#beforeDeactivate()`  
+Gives the screen a chance to cancel the navigation and stop itself from being deactivated. Can be used, for example, if the screen has unsaved state.  Clean-up should not be preformed here, since the navigation may still be cancelled.
+
+`#deactivate()`  
+Called before the screen is navigated away from.
+
+`dispose()`  
+Called when the screen is being destroyed.  Should do cleanup of event listeners, timers, requests, etc.
+
+
