@@ -98,6 +98,19 @@ surf.Screen.prototype.getSurfaceContent = function(surface) {};
 
 
 /**
+ * Allows a screen to perform any setup immediately before the DOM is made visible.
+ * @return {goog.async.Deferred}
+ */
+surf.Screen.prototype.beforeFlip = function() {};
+
+
+/**
+ * Allows a screen to perform any setup that requires its DOM to be visible.
+ */
+surf.Screen.prototype.afterFlip = function() {};
+
+
+/**
  * Gives the Screen a chance to cancel the navigation and stop itself from being deactivated.
  * Can be used, for example, if the screen has unsaved state.
  *
@@ -114,19 +127,6 @@ surf.Screen.prototype.beforeDeactivate = function() {};
  * cancelling outstanding XHRs or stopping timers. 
  */
 surf.Screen.prototype.deactivate = function() {};
-
-
-/**
- * Allows a screen to perform any setup immediately before the DOM is made visible.
- * @return {goog.async.Deferred}
- */
-surf.Screen.prototype.beforeFlip = function() {};
-
-
-/**
- * Allows a screen to perform any setup that requires its DOM to be visible.
- */
-surf.Screen.prototype.afterFlip = function() {};
 
 
 /**
