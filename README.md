@@ -87,10 +87,10 @@ Constructs a new app.  The basePath should be the root of the application, any p
 Defines a surface which the app should manage.  The `id` should correspond to an element in the DOM.  You can optionally specify default content that will be displayed if a screen doesn't provide content for the surface, and a transition function that will be used to flip a surface's children (default uses display='none' to hide the element).  If you don't provide default content here, you can specify an element already in the DOM with the id of the surface plus '-default', e.g. 'mainarea-default', if neither are specified the surface will be blank unless the screen provides content.
 
 `#registerScreenFactory(factory)`  
-Registers a screen factory with the app.  When looking for a matching factory, they will be called in the order they were registered.
+Registers a screen factory with the app.  When looking for a matching factory, they will be called in the order they were registered and the first to return true for `matchesPath()` will be used.
 
 `#init(opt_initialPath)`  
-Initializes the application.  If a path is specified an initial navigation is performed, replacing the current history state.  Before calling init surfaces should have been defined and screen factories registered.  Init must be called.
+Initializes the application.  If a path is specified an initial navigation is performed, replacing the current history state.  Before calling `init()`, surfaces should have been defined and screen factories registered.  Init must be called.
 
 `#navigate(path, opt_replaceHistory)`  
 Starts a navigation to the given path.  If a matching, cached screen is found it will be navigated too, otherwise a screen factory is looked for.  If opt_replaceHistory is true, the navigation will replace the current entry on the history stack rather than pushing a new entry.  `app.navigate()` returns a Deferred that will be called back once the navigation finishes, if the navigation fails its errback will be called.
