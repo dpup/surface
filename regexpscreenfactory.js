@@ -50,5 +50,7 @@ surf.RegExpScreenFactory.prototype.matchesPath = function(path) {
 
 /** @return {!surf.Screen} */
 surf.RegExpScreenFactory.prototype.create = function(path) {
-  return new this.screenCtor_(this.re_.exec(path));
+  var matches = this.re_.exec(path);
+  surf.log('Creating screen for', path, matches);
+  return new this.screenCtor_(matches);
 };
