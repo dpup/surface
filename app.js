@@ -386,16 +386,22 @@ surf.App.prototype.handleDocClick_ = function(e) {
   
   if (el) {
     var path = el.pathname + el.search;
-    surf.log('Link path:', path, '; Base path:', this.basePath_);
-    if (goog.string.startsWith(path, this.basePath_)) {
-      path = path.substr(this.basePath_.length);
-      var navigateFailed = false;
-      this.navigate(path).addErrback(function(err) { navigateFailed = true; });
-      // If the navigation failed synchronously then we don't prevent default and let the browser
-      // handle the click.  This would happen for URLs that aren't meant to be managed by the App.
-      if (!navigateFailed) {
-        e.preventDefault();
+    if (el.hostname == window.location.hostname) {
+      if (goog.string.startsWith(path, this.basePath_)) {
+        surf.log('Link path:', path, '; Base path:', this.basePath_);
+        path = path.substr(this.basePath_.length);
+        var navigateFailed = false;
+        this.navigate(path).addErrback(function(err) { navigateFailed = true; });
+        // If the navigation failed synchronously then we don't prevent default and let the browser
+        // handle the click.  This would happen for URLs that aren't meant to be managed by the App.
+        if (!navigateFailed) {
+          e.preventDefault();
+        }
+      } else {
+        surf.log('Link clicked outside app\'s base path')
       }
+    } else {
+      surf.log('Offsite link clicked');
     }
   }
 };
