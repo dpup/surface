@@ -54,7 +54,7 @@ A navigation occurs when either `app.navigate('/somepath/')` is called directly 
 2. If there is an active screen its `beforeDeactivate()` method is called, if false is returned then the navigation is canceled.
 3. A destination screen is looked for:
     1. If there is a cached screen which matches the navigation path exactly, then it will be used as the destination screen.
-    2. If there is no cached screen, each `matchesPath()` will be called on each screen factory until one returns true, indicating it can handle the navigation.  `create()` will then be called on the factory which should return a new `Screen` instance.  The new screen will then have `getSurfaceContent()` called for each surface in the application.
+    2. If there is no cached screen, `matchesPath()` will be called on each screen factory until one returns true, indicating it can handle the navigation.  `create()` will then be called on the factory which should return a new `Screen` instance.  The new screen will then have `getSurfaceContent()` called for each surface in the application.
 4. If there was a previously started navigation, it will be canceled at this stage.
 5. `beforeFlip` will be called on the destination screen.  This can return a deferred, which will pause the navigation until it is resolved.
 6. The surfaces will now be switched, if there is a transition function that was passed to `defineSurface` and it returns a deferred, the navigation will be paused until all surfaces' deferred have completed.  This is useful for animations.
