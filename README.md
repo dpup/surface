@@ -52,7 +52,7 @@ A navigation occurs when either `app.navigate('/somepath/')` is called directly 
 
 1. `surf.App.Topics.START` is dispatched to any subscribers.
 2. If there is an active screen its `beforeDeactivate()` method is called, if false is returned then the navigation is canceled.
-3.
+3. A destination screen is looked for:
     a. If there is a cached screen which matches the navigation path exactly, then it will be used as the destination screen.
     b. If there is no cached screen, each `matchesPath()` will be called on each screen factory until one returns true, indicating it can handle the navigation.  `create()` will then be called on the factory which should return a new `Screen` instance.  The new screen will then have `getSurfaceContent()` called for each surface in the application.
 4. If there was a previously started navigation, it will be canceled at this stage.
